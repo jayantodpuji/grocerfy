@@ -1,7 +1,12 @@
 package main
 
 import (
+	"context"
 	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"time"
 
 	"github.com/jayantodpuji/grocerfy/config"
 	"github.com/jayantodpuji/grocerfy/internal"
@@ -24,5 +29,18 @@ func main() {
 		log.Fatal(err)
 	}
 
-	app.Start()
+	go func() {
+		if err := app.Start(); err != nil && err != http.ErrServerClosed {
+			log.Fatal("shutting down the application")
+		}
+	}()
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(100)*time.Second)
+	defer cancel()
+	if err := app.Shutdown(ctx); err != nil {
+		log.Fatal(err)
+	}
 }
