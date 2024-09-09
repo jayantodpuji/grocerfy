@@ -29,6 +29,8 @@ func main() {
 		log.Fatal(err)
 	}
 
+	internal.Routes(app)
+
 	go func() {
 		if err := app.Start(); err != nil && err != http.ErrServerClosed {
 			log.Fatal("shutting down the application")

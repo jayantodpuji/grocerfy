@@ -8,23 +8,18 @@ import (
 	"gorm.io/gorm"
 )
 
-type Handler struct {
-}
-
 type Application struct {
 	DB     *gorm.DB
 	Router *echo.Echo
 	Port   string
 	Env    string
-	Handler
 }
 
 func NewApplication(db *gorm.DB, ec *echo.Echo, cfg *config.Config) (*Application, error) {
 	return &Application{
-		Handler: Handler{},
-		Router:  ec,
-		Port:    cfg.App.Port,
-		Env:     cfg.App.Env,
+		Router: ec,
+		Port:   cfg.App.Port,
+		Env:    cfg.App.Env,
 	}, nil
 }
 
