@@ -1,0 +1,22 @@
+with-expecter: true
+packages:
+  github.com/jayantodpuji/grocerfy/internal/repositories:
+    config:
+      all: true
+      dir: "test/mocks/repositories"
+      filename: "{{.InterfaceName}}.go"
+      outpkg: mocks
+
+  github.com/jayantodpuji/grocerfy/internal/services:
+    config:
+      all: true
+      dir: "test/mocks/services"
+      filename: "{{.InterfaceName}}.go"
+      outpkg: mocks
+
+  github.com/jayantodpuji/grocerfy/internal/handlers:
+    config:
+      all: true
+      dir: "test/mocks/handlers"
+      filename: "{{.InterfaceName}}.go"
+      outpkg: mocks
