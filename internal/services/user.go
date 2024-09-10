@@ -10,7 +10,7 @@ import (
 )
 
 type UserService interface {
-	SignUp(context.Context, requests.SignUp) error
+	Register(context.Context, requests.UserRegistration) error
 }
 
 type userService struct {
@@ -25,7 +25,7 @@ func NewUserService(deps UserServiceDependency) UserService {
 	return &userService{userRepository: deps.UserRepository}
 }
 
-func (us *userService) SignUp(c context.Context, p requests.SignUp) error {
+func (us *userService) Register(c context.Context, p requests.UserRegistration) error {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(p.Password), 8)
 	if err != nil {
 		return err

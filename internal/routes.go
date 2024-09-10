@@ -18,6 +18,7 @@ func Routes(app *Application) {
 	})
 
 	v1 := app.Router.Group("/api/v1")
+
 	userV1 := v1.Group("/users")
-	userV1.POST("/create", userHandler.SignUp)
+	userV1.POST("/register", userHandler.Register)
 }
