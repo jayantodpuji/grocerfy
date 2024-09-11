@@ -18,12 +18,8 @@ type User struct {
 }
 
 func (u *User) BeforeCreate(tx *gorm.DB) error {
-	if u.ID.IsNil() {
-		uid, err := uuid.NewV7()
-		if err != nil {
-			return err
-		}
-		tx.Statement.SetColumn("id", uid)
+	if u.ID == uuid.Nil {
+		u.ID = uuid.Must(uuid.NewV4())
 	}
 	return nil
 }
