@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitiateDatabase(cfg config.Config) (*gorm.DB, error) {
+func InitiateDatabase(cfg *config.Config) (*gorm.DB, error) {
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s sslmode=%s",
 		cfg.DB.Host,
@@ -16,6 +16,24 @@ func InitiateDatabase(cfg config.Config) (*gorm.DB, error) {
 		cfg.DB.Password,
 		cfg.DB.Database,
 		cfg.DB.SSL,
+	)
+
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		return nil, err
+	}
+
+	return db, nil
+}
+
+func InitiateTestDatabase(dbConfig *config.Config) (*gorm.DB, error) {
+	dsn := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s sslmode=%s",
+		dbConfig.TestDB.Host,
+		dbConfig.TestDB.User,
+		dbConfig.TestDB.Password,
+		dbConfig.TestDB.Database,
+		dbConfig.TestDB.SSL,
 	)
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})

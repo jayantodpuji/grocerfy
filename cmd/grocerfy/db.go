@@ -25,3 +25,16 @@ func InitiateDatabase(cfg config.Config) (*gorm.DB, error) {
 
 	return db, nil
 }
+
+func CloseDatabase(db *gorm.DB) error {
+	sqlDB, err := db.DB()
+	if err != nil {
+		return err
+	}
+
+	if err := sqlDB.Close(); err != nil {
+		return err
+	}
+
+	return nil
+}
