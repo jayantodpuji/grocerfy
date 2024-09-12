@@ -1,6 +1,9 @@
 package requests
 
-import "net/mail"
+import (
+	"errors"
+	"net/mail"
+)
 
 type UserRegistration struct {
 	Password string `json:"password"`
@@ -11,6 +14,14 @@ type UserRegistration struct {
 func (s *UserRegistration) Validate() error {
 	if err := validateEmail(s.Email); err != nil {
 		return err
+	}
+
+	if s.Password == "" {
+		return errors.New("password cannot be empty")
+	}
+
+	if s.Name == "" {
+		return errors.New("name cannot be empty")
 	}
 
 	return nil

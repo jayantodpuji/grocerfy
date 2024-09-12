@@ -52,6 +52,26 @@ func (s *UserRepositoryTestSuite) Test_InsertRecord() {
 	s.Equal(nu.PasswordHash, u.PasswordHash)
 }
 
+func (s *UserRepositoryTestSuite) Test_FindUserByEmail() {
+	nu := &models.User{
+		Name:         "John Doe",
+		Email:        "john.doe@example.com",
+		PasswordHash: "password123",
+	}
+
+	err := s.repo.InsertRecord(context.Background(), nu)
+	s.NoError(err)
+	s.NotZero(nu.ID)
+
+	eu, err := s.repo.FindUserByEmail(context.Background(), nu.Email)
+	s.NoError(err)
+	s.NotNil(eu)
+	s.Equal(nu.ID, eu.ID)
+	s.Equal(nu.Name, eu.Name)
+	s.Equal(nu.Email, eu.Email)
+	s.Equal(nu.PasswordHash, eu.PasswordHash)
+}
+
 func TestUserRepositorySuite(t *testing.T) {
 	suite.Run(t, new(UserRepositoryTestSuite))
 }

@@ -9,6 +9,7 @@ import (
 
 type UserRepository interface {
 	InsertRecord(context.Context, *models.User) error
+	FindUserByEmail(context.Context, string) (*models.User, error)
 }
 
 type userRepository struct {
@@ -29,4 +30,13 @@ func (u *userRepository) InsertRecord(c context.Context, p *models.User) error {
 	}
 
 	return nil
+}
+
+func (u *userRepository) FindUserByEmail(c context.Context, email string) (*models.User, error) {
+	var user models.User
+	if err := u.db.WithContext(c).First(&user, "email = ?", email).Error; err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
