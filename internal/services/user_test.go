@@ -2,6 +2,7 @@ package services_test
 
 import (
 	"context"
+	"testing"
 
 	"github.com/jayantodpuji/grocerfy/internal/requests"
 	"github.com/jayantodpuji/grocerfy/internal/services"
@@ -24,13 +25,17 @@ func (s *UserServiceTestSuite) SetupTest() {
 func (s *UserServiceTestSuite) Test_Register() {
 	ctx := context.Background()
 	req := requests.UserRegistration{
-		Email:    "test@example.com",
+		Email:    "john.doe@example.com",
 		Password: "password123",
-		Name:     "Test User",
+		Name:     "John Doe",
 	}
 
 	s.userRepository.EXPECT().InsertRecord(ctx, mock.Anything).Return(nil)
 
 	err := s.userService.Register(ctx, req)
 	s.NoError(err)
+}
+
+func TestUserServiceTestSuite(t *testing.T) {
+	suite.Run(t, new(UserServiceTestSuite))
 }
