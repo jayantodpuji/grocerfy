@@ -13,13 +13,16 @@ type Application struct {
 	Router *echo.Echo
 	Port   string
 	Env    string
+	JWTKey string
 }
 
 func NewApplication(db *gorm.DB, ec *echo.Echo, cfg *config.Config) (*Application, error) {
 	return &Application{
+		DB:     db,
 		Router: ec,
 		Port:   cfg.App.Port,
 		Env:    cfg.App.Env,
+		JWTKey: cfg.App.JWTKey,
 	}, nil
 }
 

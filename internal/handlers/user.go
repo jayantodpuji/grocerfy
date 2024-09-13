@@ -10,6 +10,7 @@ import (
 
 type UserHandler interface {
 	Register(echo.Context) error
+	Login(echo.Context) error
 }
 
 type userHandler struct {
@@ -42,4 +43,21 @@ func (uh *userHandler) Register(c echo.Context) error {
 	}
 
 	return c.NoContent(http.StatusOK)
+}
+
+func (uh *userHandler) Login(c echo.Context) error {
+	var req requests.UserLogin
+	err := c.Bind(&req)
+	if err != nil {
+		return c.String(http.StatusBadRequest, "bad request")
+	}
+
+	token, err := uh.userService.Login(c.Request().Context(), req)
+	if err != nil {
+		return c.String(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, echo.Map{
+		"token": token,
+	})
 }

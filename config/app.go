@@ -6,14 +6,16 @@ import (
 )
 
 type App struct {
-	Port string
-	Env  string
+	Port   string
+	Env    string
+	JWTKey string
 }
 
 func LoadApplicationConfig() App {
 	return App{
-		Port: getAppPort(),
-		Env:  getAppEnv(),
+		Port:   getAppPort(),
+		Env:    getAppEnv(),
+		JWTKey: getJWTKey(),
 	}
 }
 
@@ -33,4 +35,13 @@ func getAppPort() string {
 	}
 
 	return fmt.Sprintf(":%s", port)
+}
+
+func getJWTKey() string {
+	key := os.Getenv("JWT_SECRET")
+	if key == "" {
+		key = "secret"
+	}
+
+	return key
 }

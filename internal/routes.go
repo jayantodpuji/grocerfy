@@ -14,6 +14,9 @@ func Routes(app *Application) {
 					DB: app.DB,
 				},
 			),
+			AuthService: services.NewAuthService(services.AuthServiceDependency{
+				JWTKey: app.JWTKey,
+			}),
 		}),
 	})
 
@@ -21,4 +24,5 @@ func Routes(app *Application) {
 
 	userV1 := v1.Group("/users")
 	userV1.POST("/register", userHandler.Register)
+	userV1.POST("/login", userHandler.Login)
 }

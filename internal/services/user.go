@@ -11,18 +11,21 @@ import (
 
 type UserService interface {
 	Register(context.Context, requests.UserRegistration) error
+	Login(context.Context, requests.UserLogin) (string, error)
 }
 
 type userService struct {
 	userRepository repositories.UserRepository
+	authService    AuthService
 }
 
 type UserServiceDependency struct {
 	UserRepository repositories.UserRepository
+	AuthService    AuthService
 }
 
 func NewUserService(deps UserServiceDependency) UserService {
-	return &userService{userRepository: deps.UserRepository}
+	return &userService{userRepository: deps.UserRepository, authService: deps.AuthService}
 }
 
 func (us *userService) Register(c context.Context, p requests.UserRegistration) error {
@@ -42,4 +45,22 @@ func (us *userService) Register(c context.Context, p requests.UserRegistration) 
 	}
 
 	return nil
+}
+
+func (us *userService) Login(c context.Context, p requests.UserLogin) (string, error) {
+	user, err := us.userRepository.FindUserByEmail(c, p.Email)
+	if err != nil {
+		return "", err
+	}
+
+	if err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(p.Password)); err != nil {
+		return "", err
+	}
+
+	token, err := us.authService.GenerateToken(c, user.Email)
+	if err != nil {
+		return "", err
+	}
+
+	return token, nil
 }

@@ -22,6 +22,63 @@ func (_m *MockUserService) EXPECT() *MockUserService_Expecter {
 	return &MockUserService_Expecter{mock: &_m.Mock}
 }
 
+// Login provides a mock function with given fields: _a0, _a1
+func (_m *MockUserService) Login(_a0 context.Context, _a1 requests.UserLogin) (string, error) {
+	ret := _m.Called(_a0, _a1)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Login")
+	}
+
+	var r0 string
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, requests.UserLogin) (string, error)); ok {
+		return rf(_a0, _a1)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, requests.UserLogin) string); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, requests.UserLogin) error); ok {
+		r1 = rf(_a0, _a1)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockUserService_Login_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Login'
+type MockUserService_Login_Call struct {
+	*mock.Call
+}
+
+// Login is a helper method to define mock.On call
+//   - _a0 context.Context
+//   - _a1 requests.UserLogin
+func (_e *MockUserService_Expecter) Login(_a0 interface{}, _a1 interface{}) *MockUserService_Login_Call {
+	return &MockUserService_Login_Call{Call: _e.mock.On("Login", _a0, _a1)}
+}
+
+func (_c *MockUserService_Login_Call) Run(run func(_a0 context.Context, _a1 requests.UserLogin)) *MockUserService_Login_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(requests.UserLogin))
+	})
+	return _c
+}
+
+func (_c *MockUserService_Login_Call) Return(_a0 string, _a1 error) *MockUserService_Login_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockUserService_Login_Call) RunAndReturn(run func(context.Context, requests.UserLogin) (string, error)) *MockUserService_Login_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // Register provides a mock function with given fields: _a0, _a1
 func (_m *MockUserService) Register(_a0 context.Context, _a1 requests.UserRegistration) error {
 	ret := _m.Called(_a0, _a1)
