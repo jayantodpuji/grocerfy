@@ -25,10 +25,10 @@ func NewAuthService(deps AuthServiceDependency) AuthService {
 	return &authService{jwtKey: deps.JWTKey}
 }
 
-func (as *authService) GenerateToken(c context.Context, email string) (string, error) {
+func (as *authService) GenerateToken(c context.Context, userID string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.RegisteredClaims{
 		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24)),
-		Subject:   email,
+		Subject:   userID,
 	})
 
 	tokenString, err := token.SignedString([]byte(as.jwtKey))
