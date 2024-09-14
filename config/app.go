@@ -38,7 +38,7 @@ func getAppPort() string {
 }
 
 func getJWTKey() string {
-	key := os.Getenv("JWT_SECRET")
+	key := os.Getenv("APP_JWT_SECRET")
 	if key == "" {
 		key = "secret"
 	}

@@ -7,8 +7,8 @@ import (
 )
 
 type CreateGroceryListRequest struct {
-	Name        string    `json:"name" validate:"required"`
-	UserID      uuid.UUID `json:"userID" validate:"required"`
+	Name        string    `json:"name"`
+	UserID      uuid.UUID `json:"userID"`
 	Description string    `json:"description"`
 }
 
