@@ -5,6 +5,7 @@ import (
 
 	"github.com/jayantodpuji/grocerfy/internal/delivery"
 	"github.com/jayantodpuji/grocerfy/internal/requests"
+	"github.com/jayantodpuji/grocerfy/internal/responses"
 	"github.com/jayantodpuji/grocerfy/internal/services"
 	"github.com/labstack/echo/v4"
 )
@@ -50,15 +51,15 @@ func (uh *userHandler) Login(c echo.Context) error {
 	var req requests.UserLogin
 	err := c.Bind(&req)
 	if err != nil {
-		return c.String(http.StatusBadRequest, "bad request")
+		return delivery.ResponseError(c, http.StatusBadRequest, err.Error())
 	}
 
 	token, err := uh.userService.Login(c.Request().Context(), req)
 	if err != nil {
-		return c.String(http.StatusBadRequest, err.Error())
+		return delivery.ResponseError(c, http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, echo.Map{
-		"token": token,
+	return delivery.ResponseSuccess(c, http.StatusOK, responses.Login{
+		Token: token,
 	})
 }
