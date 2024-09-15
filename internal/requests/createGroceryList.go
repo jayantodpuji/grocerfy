@@ -17,9 +17,5 @@ func (c *CreateGroceryListRequest) Validate() error {
 		return errors.New("name is required")
 	}
 
-	if c.UserID == uuid.Nil {
-		return errors.New("userID is required")
-	}
-
 	return nil
 }

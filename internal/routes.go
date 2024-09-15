@@ -1,12 +1,10 @@
 package internal
 
 import (
-	"github.com/golang-jwt/jwt/v5"
 	"github.com/jayantodpuji/grocerfy/internal/handlers"
+	"github.com/jayantodpuji/grocerfy/internal/middlewares"
 	"github.com/jayantodpuji/grocerfy/internal/repositories"
 	"github.com/jayantodpuji/grocerfy/internal/services"
-	echojwt "github.com/labstack/echo-jwt/v4"
-	"github.com/labstack/echo/v4"
 )
 
 func Routes(app *Application) {
@@ -40,15 +38,9 @@ func Routes(app *Application) {
 	userV1.POST("/login", userHandler.Login)
 
 	secured := v1.Group("/secured")
-	config := echojwt.Config{
-		NewClaimsFunc: func(c echo.Context) jwt.Claims {
-			return new(jwt.RegisteredClaims)
-		},
-		SigningKey: []byte(app.JWTKey),
-	}
-	secured.Use(echojwt.WithConfig(config))
+	secured.Use(middlewares.AuthMiddleware(app.JWTKey))
 
 	groceryListV1 := secured.Group("/grocery-lists")
-	groceryListV1.GET("/index", groceryListHandler.Index)
 	groceryListV1.POST("/create", groceryListHandler.Create)
+	groceryListV1.GET("/index", groceryListHandler.Index)
 }

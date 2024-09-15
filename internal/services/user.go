@@ -57,7 +57,7 @@ func (us *userService) Login(c context.Context, p requests.UserLogin) (string, e
 		return "", err
 	}
 
-	token, err := us.authService.GenerateToken(c, user.Email)
+	token, err := us.authService.GenerateToken(c, user.ID.String())
 	if err != nil {
 		return "", err
 	}

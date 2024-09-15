@@ -10,7 +10,7 @@ import (
 )
 
 type GroceryListService interface {
-	CreateGroceryList(context.Context, requests.CreateGroceryListRequest) error
+	CreateGroceryList(context.Context, uuid.UUID, requests.CreateGroceryListRequest) error
 	GetGroceryListByUserID(context.Context, uuid.UUID) ([]models.GroceryList, error)
 }
 
@@ -26,10 +26,10 @@ func NewGroceryListService(deps GroceryListServiceDependency) GroceryListService
 	return &groceryListService{groceryListRepository: deps.GroceryListRepository}
 }
 
-func (g *groceryListService) CreateGroceryList(c context.Context, p requests.CreateGroceryListRequest) error {
+func (g *groceryListService) CreateGroceryList(c context.Context, uid uuid.UUID, p requests.CreateGroceryListRequest) error {
 	if err := g.groceryListRepository.InsertRecord(c, &models.GroceryList{
 		Name:        p.Name,
-		UserID:      p.UserID,
+		UserID:      uid,
 		Description: p.Description,
 	}); err != nil {
 		return err
