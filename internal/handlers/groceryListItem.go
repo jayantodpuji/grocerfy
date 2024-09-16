@@ -1,15 +1,15 @@
 package handlers
 
 import (
-	"context"
+	"net/http"
 
-	"github.com/jayantodpuji/grocerfy/internal/requests"
+	"github.com/jayantodpuji/grocerfy/internal/delivery"
 	"github.com/jayantodpuji/grocerfy/internal/services"
+	"github.com/labstack/echo/v4"
 )
 
 type GroceryListItemHandler interface {
-	Create(c context.Context, req *requests.CreateGroceryListItemRequest) error
-	BulkCreate(c context.Context, req []*requests.CreateGroceryListItemRequest) error
+	GetByGroceryList(echo.Context) error
 }
 
 type groceryListItemHandler struct {
@@ -24,24 +24,6 @@ func NewGroceryListItemHandler(deps GroceryListItemHandlerDependency) GroceryLis
 	return &groceryListItemHandler{service: deps.Service}
 }
 
-func (h *groceryListItemHandler) Create(c context.Context, req *requests.CreateGroceryListItemRequest) error {
-	if err := req.Validate(); err != nil {
-		return err
-	}
-
-	_, err := h.service.CreateGroceryListItem(c, req)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (h *groceryListItemHandler) BulkCreate(c context.Context, req []*requests.CreateGroceryListItemRequest) error {
-	_, err := h.service.BulkCreateGroceryListItem(c, req)
-	if err != nil {
-		return err
-	}
-
-	return nil
+func (h *groceryListItemHandler) GetByGroceryList(c echo.Context) error {
+	return delivery.ResponseSuccess(c, http.StatusOK, nil)
 }

@@ -3,6 +3,7 @@ package repositories
 import (
 	"context"
 
+	"github.com/gofrs/uuid"
 	"github.com/jayantodpuji/grocerfy/internal/models"
 	"gorm.io/gorm"
 )
@@ -10,6 +11,7 @@ import (
 type GroceryListItemRepository interface {
 	InsertRecord(context.Context, *models.GroceryListItem) (*models.GroceryListItem, error)
 	InsertRecords(context.Context, []*models.GroceryListItem) ([]*models.GroceryListItem, error)
+	GetItems(context.Context, uuid.UUID) ([]*models.GroceryListItem, error)
 }
 
 type groceryListItemRepository struct {
@@ -42,4 +44,13 @@ func (g *groceryListItemRepository) InsertRecords(c context.Context, p []*models
 	}
 
 	return p, nil
+}
+
+func (g *groceryListItemRepository) GetItems(c context.Context, listID uuid.UUID) ([]*models.GroceryListItem, error) {
+	var items []*models.GroceryListItem
+	if err := g.db.WithContext(c).Where("grocery_list_id = ?", listID).Find(&items).Error; err != nil {
+		return nil, err
+	}
+
+	return items, nil
 }
