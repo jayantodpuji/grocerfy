@@ -7,11 +7,12 @@ import (
 	"github.com/jayantodpuji/grocerfy/internal/models"
 	"github.com/jayantodpuji/grocerfy/internal/repositories"
 	"github.com/jayantodpuji/grocerfy/internal/requests"
+	"github.com/jayantodpuji/grocerfy/internal/responses"
 )
 
 type GroceryListService interface {
 	CreateGroceryList(context.Context, uuid.UUID, requests.CreateGroceryListRequest) error
-	GetGroceryListByUserID(context.Context, uuid.UUID) ([]models.GroceryList, error)
+	GetGroceryListByUserID(context.Context, uuid.UUID) ([]*responses.GroceryListIndexResponse, error)
 }
 
 type groceryListService struct {
@@ -38,6 +39,21 @@ func (g *groceryListService) CreateGroceryList(c context.Context, uid uuid.UUID,
 	return nil
 }
 
-func (g *groceryListService) GetGroceryListByUserID(c context.Context, userID uuid.UUID) ([]models.GroceryList, error) {
-	return g.groceryListRepository.GetGroceryListByUserID(c, userID)
+func (g *groceryListService) GetGroceryListByUserID(c context.Context, userID uuid.UUID) ([]*responses.GroceryListIndexResponse, error) {
+	gcs, err := g.groceryListRepository.GetGroceryListByUserID(c, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	resps := make([]*responses.GroceryListIndexResponse, 0)
+	for i := 0; i < len(gcs); i++ {
+		resps = append(resps, &responses.GroceryListIndexResponse{
+			ID:          gcs[i].ID.String(),
+			Name:        gcs[i].Name,
+			Description: gcs[i].Description,
+			CreatedAt:   gcs[i].CreatedAt,
+		})
+	}
+
+	return resps, nil
 }
