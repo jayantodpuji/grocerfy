@@ -6,8 +6,7 @@ CREATE TABLE public.users (
   password_hash text not null,
   name text,
   created_at timestamptz not null default current_timestamp,
-  updated_at timestamptz not null default current_timestamp,
-  deleted_at timestamptz null
+  updated_at timestamptz not null default current_timestamp
 );
 
 CREATE INDEX idx_users_email ON public.users (email);

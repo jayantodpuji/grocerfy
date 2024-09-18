@@ -12,7 +12,6 @@ CREATE TABLE public.grocery_list_items (
   purchase_date timestamptz null,
   created_at timestamptz not null default current_timestamp,
   updated_at timestamptz not null default current_timestamp,
-  deleted_at timestamptz null,
 
   CONSTRAINT fk_grocery_list_items_grocery_list FOREIGN KEY (grocery_list_id) REFERENCES public.grocery_lists(id)
 );

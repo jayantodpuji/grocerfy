@@ -9,9 +9,8 @@ import (
 )
 
 type GroceryListItemRepository interface {
-	InsertRecord(context.Context, *models.GroceryListItem) (*models.GroceryListItem, error)
-	InsertRecords(context.Context, []*models.GroceryListItem) ([]*models.GroceryListItem, error)
-	GetItems(context.Context, uuid.UUID) ([]*models.GroceryListItem, error)
+	InsertRecord(context.Context, *models.GroceryListItem) error
+	GetItemsByGroceryList(context.Context, uuid.UUID) ([]*models.GroceryListItem, error)
 }
 
 type groceryListItemRepository struct {
@@ -26,27 +25,15 @@ func NewGroceryListItemRepository(deps GroceryListItemRepositoryDependency) Groc
 	return &groceryListItemRepository{db: deps.DB}
 }
 
-func (g *groceryListItemRepository) InsertRecord(c context.Context, p *models.GroceryListItem) (*models.GroceryListItem, error) {
+func (g *groceryListItemRepository) InsertRecord(c context.Context, p *models.GroceryListItem) error {
 	if err := g.db.WithContext(c).Create(&p).Error; err != nil {
-		return nil, err
+		return err
 	}
 
-	return p, nil
+	return nil
 }
 
-func (g *groceryListItemRepository) InsertRecords(c context.Context, p []*models.GroceryListItem) ([]*models.GroceryListItem, error) {
-	err := g.db.WithContext(c).Transaction(func(tx *gorm.DB) error {
-		return tx.CreateInBatches(&p, 10).Error
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	return p, nil
-}
-
-func (g *groceryListItemRepository) GetItems(c context.Context, listID uuid.UUID) ([]*models.GroceryListItem, error) {
+func (g *groceryListItemRepository) GetItemsByGroceryList(c context.Context, listID uuid.UUID) ([]*models.GroceryListItem, error) {
 	var items []*models.GroceryListItem
 	if err := g.db.WithContext(c).Where("grocery_list_id = ?", listID).Find(&items).Error; err != nil {
 		return nil, err

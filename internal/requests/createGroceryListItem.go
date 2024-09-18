@@ -3,7 +3,7 @@ package requests
 import "errors"
 
 type CreateGroceryListItemRequest struct {
-	GroceryListID string  `json:"groceryListId"`
+	GroceryListID string  `json:"groceryListID"`
 	Category      string  `json:"category"`
 	Name          string  `json:"name"`
 	Unit          string  `json:"unit"`

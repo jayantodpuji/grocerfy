@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/gofrs/uuid"
 	"github.com/jayantodpuji/grocerfy/internal/delivery"
 	"github.com/jayantodpuji/grocerfy/internal/requests"
 	"github.com/jayantodpuji/grocerfy/internal/services"
@@ -12,6 +13,7 @@ import (
 type GroceryListHandler interface {
 	Create(c echo.Context) error
 	Index(c echo.Context) error
+	Detail(c echo.Context) error
 }
 
 type groceryListHandler struct {
@@ -60,4 +62,20 @@ func (g *groceryListHandler) Index(c echo.Context) error {
 	}
 
 	return delivery.ResponseSuccess(c, http.StatusOK, groceryLists)
+}
+
+func (g *groceryListHandler) Detail(c echo.Context) error {
+	id := c.Param("id")
+
+	listID, err := uuid.FromString(id)
+	if err != nil {
+		return delivery.ResponseError(c, http.StatusBadRequest, err.Error())
+	}
+
+	groceryList, err := g.groceryListService.GetGroceryListByID(c.Request().Context(), listID)
+	if err != nil {
+		return delivery.ResponseError(c, http.StatusInternalServerError, err.Error())
+	}
+
+	return delivery.ResponseSuccess(c, http.StatusOK, groceryList)
 }

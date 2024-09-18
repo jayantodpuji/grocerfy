@@ -11,6 +11,7 @@ import (
 type GroceryListRepository interface {
 	InsertRecord(context.Context, *models.GroceryList) error
 	GetGroceryListByUserID(context.Context, uuid.UUID) ([]models.GroceryList, error)
+	GetGroceryListByID(context.Context, uuid.UUID) (*models.GroceryList, error)
 }
 
 type groceryListRepository struct {
@@ -40,4 +41,13 @@ func (g *groceryListRepository) GetGroceryListByUserID(c context.Context, userID
 	}
 
 	return groceryLists, nil
+}
+
+func (g *groceryListRepository) GetGroceryListByID(c context.Context, listID uuid.UUID) (*models.GroceryList, error) {
+	var groceryList models.GroceryList
+	if err := g.db.WithContext(c).Where("id = ?", listID).First(&groceryList).Error; err != nil {
+		return nil, err
+	}
+
+	return &groceryList, nil
 }

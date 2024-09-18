@@ -10,8 +10,7 @@ import (
 )
 
 type GroceryListItemService interface {
-	CreateGroceryListItem(c context.Context, req *requests.CreateGroceryListItemRequest) (*models.GroceryListItem, error)
-	BulkCreateGroceryListItem(c context.Context, req []*requests.CreateGroceryListItemRequest) ([]*models.GroceryListItem, error)
+	CreateGroceryListItem(context.Context, *requests.CreateGroceryListItemRequest) error
 }
 
 type groceryListItemService struct {
@@ -22,8 +21,8 @@ func NewGroceryListItemService(repo repositories.GroceryListItemRepository) Groc
 	return &groceryListItemService{repo: repo}
 }
 
-func (s *groceryListItemService) CreateGroceryListItem(c context.Context, req *requests.CreateGroceryListItemRequest) (*models.GroceryListItem, error) {
-	gli, err := s.repo.InsertRecord(c, &models.GroceryListItem{
+func (s *groceryListItemService) CreateGroceryListItem(c context.Context, req *requests.CreateGroceryListItemRequest) error {
+	err := s.repo.InsertRecord(c, &models.GroceryListItem{
 		GroceryListID: uuid.Must(uuid.FromString(req.GroceryListID)),
 		Category:      req.Category,
 		Name:          req.Name,
@@ -33,27 +32,5 @@ func (s *groceryListItemService) CreateGroceryListItem(c context.Context, req *r
 		Price:         req.Price,
 	})
 
-	if err != nil {
-		return nil, err
-	}
-
-	return gli, nil
-}
-
-func (s *groceryListItemService) BulkCreateGroceryListItem(c context.Context, req []*requests.CreateGroceryListItemRequest) ([]*models.GroceryListItem, error) {
-	gli := make([]*models.GroceryListItem, 0)
-
-	for _, r := range req {
-		gli = append(gli, &models.GroceryListItem{
-			GroceryListID: uuid.Must(uuid.FromString(r.GroceryListID)),
-			Category:      r.Category,
-			Name:          r.Name,
-			Unit:          r.Unit,
-			Size:          r.Size,
-			Quantity:      r.Quantity,
-			Price:         r.Price,
-		})
-	}
-
-	return s.repo.InsertRecords(c, gli)
+	return err
 }

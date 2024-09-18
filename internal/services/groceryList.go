@@ -13,18 +13,24 @@ import (
 type GroceryListService interface {
 	CreateGroceryList(context.Context, uuid.UUID, requests.CreateGroceryListRequest) error
 	GetGroceryListByUserID(context.Context, uuid.UUID) ([]*responses.GroceryListIndexResponse, error)
+	GetGroceryListByID(context.Context, uuid.UUID) (*responses.GroceryListDetailResponse, error)
 }
 
 type groceryListService struct {
-	groceryListRepository repositories.GroceryListRepository
+	groceryListRepository     repositories.GroceryListRepository
+	groceryListItemRepository repositories.GroceryListItemRepository
 }
 
 type GroceryListServiceDependency struct {
-	GroceryListRepository repositories.GroceryListRepository
+	GroceryListRepository     repositories.GroceryListRepository
+	GroceryListItemRepository repositories.GroceryListItemRepository
 }
 
 func NewGroceryListService(deps GroceryListServiceDependency) GroceryListService {
-	return &groceryListService{groceryListRepository: deps.GroceryListRepository}
+	return &groceryListService{
+		groceryListRepository:     deps.GroceryListRepository,
+		groceryListItemRepository: deps.GroceryListItemRepository,
+	}
 }
 
 func (g *groceryListService) CreateGroceryList(c context.Context, uid uuid.UUID, p requests.CreateGroceryListRequest) error {
@@ -56,4 +62,44 @@ func (g *groceryListService) GetGroceryListByUserID(c context.Context, userID uu
 	}
 
 	return resps, nil
+}
+
+// TODO: optimize this
+func (g *groceryListService) GetGroceryListByID(c context.Context, listID uuid.UUID) (*responses.GroceryListDetailResponse, error) {
+	gl, err := g.groceryListRepository.GetGroceryListByID(c, listID)
+	if err != nil {
+		return nil, err
+	}
+
+	gli, err := g.groceryListItemRepository.GetItemsByGroceryList(c, listID)
+	if err != nil {
+		return nil, err
+	}
+
+	items := make([]responses.GroceryListItemDetail, 0)
+	for i := 0; i < len(gli); i++ {
+		items = append(items, responses.GroceryListItemDetail{
+			ID:            gli[i].ID,
+			GroceryListID: gli[i].GroceryListID,
+			Category:      gli[i].Category,
+			Name:          gli[i].Name,
+			Unit:          gli[i].Unit,
+			Size:          gli[i].Size,
+			Quantity:      gli[i].Quantity,
+			Price:         gli[i].Price,
+			PurchaseDate:  gli[i].PurchaseDate,
+			CreatedAt:     gli[i].CreatedAt,
+			UpdatedAt:     gli[i].UpdatedAt,
+		})
+	}
+
+	detail := responses.GroceryListDetailResponse{
+		ID:          gl.ID.String(),
+		Name:        gl.Name,
+		Description: gl.Description,
+		CreatedAt:   gl.CreatedAt,
+		Items:       items,
+	}
+
+	return &detail, nil
 }

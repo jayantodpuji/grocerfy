@@ -7,7 +7,6 @@ CREATE TABLE public.grocery_lists (
   description text,
   created_at timestamptz not null default current_timestamp,
   updated_at timestamptz not null default current_timestamp,
-  deleted_at timestamptz null,
   CONSTRAINT fk_grocery_lists_users FOREIGN KEY (user_id) REFERENCES public.users (id)
 );
 

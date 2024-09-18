@@ -48,8 +48,11 @@ func Routes(app *Application) {
 	secured := v1.Group("/secured")
 	secured.Use(middlewares.AuthMiddleware(app.JWTKey))
 
-	groceryListV1 := secured.Group("/grocery-lists")
+	groceryListV1 := secured.Group("/lists")
 	groceryListV1.POST("/create", groceryListHandler.Create)
 	groceryListV1.GET("/index", groceryListHandler.Index)
-	groceryListV1.GET("/:id/items", groceryListItemHandler.GetByGroceryList)
+	groceryListV1.GET("/:id", groceryListHandler.Detail)
+
+	groceryListItemV1 := v1.Group("/items")
+	groceryListItemV1.POST("/create", groceryListItemHandler.Create)
 }
