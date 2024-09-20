@@ -28,6 +28,11 @@ func Routes(app *Application) {
 					DB: app.DB,
 				},
 			),
+			GroceryListItemRepository: repositories.NewGroceryListItemRepository(
+				repositories.GroceryListItemRepositoryDependency{
+					DB: app.DB,
+				},
+			),
 		}),
 	})
 
@@ -53,6 +58,6 @@ func Routes(app *Application) {
 	groceryListV1.GET("/index", groceryListHandler.Index)
 	groceryListV1.GET("/:id", groceryListHandler.Detail)
 
-	groceryListItemV1 := v1.Group("/items")
+	groceryListItemV1 := secured.Group("/items")
 	groceryListItemV1.POST("/create", groceryListItemHandler.Create)
 }

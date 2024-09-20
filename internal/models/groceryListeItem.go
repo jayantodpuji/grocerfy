@@ -15,13 +15,11 @@ type GroceryListItem struct {
 	Category      string    `gorm:"type:varchar(255);not null"`
 	Name          string    `gorm:"type:varchar(255);not null"`
 	Unit          string    `gorm:"type:varchar(255);not null"`
-	Size          int       `gorm:"type:int;not null"`
 	Quantity      int       `gorm:"type:int;not null"`
 	Price         float64   `gorm:"type:decimal(16,2);not null"`
-	PurchaseDate  time.Time `gorm:"type:timestamptz;null"`
+	IsPurchased   bool      `gorm:"type:boolean;not null"`
 	CreatedAt     time.Time `gorm:"type:timestamptz;not null"`
 	UpdatedAt     time.Time `gorm:"type:timestamptz;not null"`
-	DeletedAt     time.Time `gorm:"type:timestamptz;null"`
 }
 
 func (g *GroceryListItem) BeforeCreate(tx *gorm.DB) error {

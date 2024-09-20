@@ -6,10 +6,9 @@ CREATE TABLE public.grocery_list_items (
   category text not null,
   name text not null,
   unit text not null,
-  size int not null,
   quantity int not null,
   price decimal(16, 2) not null,
-  purchase_date timestamptz null,
+  is_purchased boolean not null default false,
   created_at timestamptz not null default current_timestamp,
   updated_at timestamptz not null default current_timestamp,
 

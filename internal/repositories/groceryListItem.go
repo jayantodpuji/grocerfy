@@ -35,7 +35,7 @@ func (g *groceryListItemRepository) InsertRecord(c context.Context, p *models.Gr
 
 func (g *groceryListItemRepository) GetItemsByGroceryList(c context.Context, listID uuid.UUID) ([]*models.GroceryListItem, error) {
 	var items []*models.GroceryListItem
-	if err := g.db.WithContext(c).Where("grocery_list_id = ?", listID).Find(&items).Error; err != nil {
+	if err := g.db.WithContext(c).Where("grocery_list_id = ?", listID.String()).Find(&items).Error; err != nil {
 		return nil, err
 	}
 

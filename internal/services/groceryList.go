@@ -71,7 +71,7 @@ func (g *groceryListService) GetGroceryListByID(c context.Context, listID uuid.U
 		return nil, err
 	}
 
-	gli, err := g.groceryListItemRepository.GetItemsByGroceryList(c, listID)
+	gli, err := g.groceryListItemRepository.GetItemsByGroceryList(c, gl.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -84,10 +84,9 @@ func (g *groceryListService) GetGroceryListByID(c context.Context, listID uuid.U
 			Category:      gli[i].Category,
 			Name:          gli[i].Name,
 			Unit:          gli[i].Unit,
-			Size:          gli[i].Size,
 			Quantity:      gli[i].Quantity,
 			Price:         gli[i].Price,
-			PurchaseDate:  gli[i].PurchaseDate,
+			IsPurchased:   gli[i].IsPurchased,
 			CreatedAt:     gli[i].CreatedAt,
 			UpdatedAt:     gli[i].UpdatedAt,
 		})

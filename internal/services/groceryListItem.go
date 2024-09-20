@@ -27,7 +27,6 @@ func (s *groceryListItemService) CreateGroceryListItem(c context.Context, req *r
 		Category:      req.Category,
 		Name:          req.Name,
 		Unit:          req.Unit,
-		Size:          req.Size,
 		Quantity:      req.Quantity,
 		Price:         req.Price,
 	})

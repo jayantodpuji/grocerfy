@@ -15,7 +15,7 @@ type GroceryListItemDetail struct {
 	Size          int       `json:"size"`
 	Quantity      int       `json:"quantity"`
 	Price         float64   `json:"price"`
-	PurchaseDate  time.Time `json:"purchaseDate"`
+	IsPurchased   bool      `json:"isPurchased"`
 	CreatedAt     time.Time `json:"createdAt"`
 	UpdatedAt     time.Time `json:"updatedAt"`
 }
