@@ -21,6 +21,12 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
+        <button
+          class="inline-block cursor-pointer rounded-md bg-gray-800 px-4 py-3 text-center text-sm font-semibold uppercase text-white transition duration-200 ease-in-out hover:bg-gray-900"
+          onClick={() => setCount((count) => count + 1)}
+          >
+          count is {count}
+        </button>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
@@ -28,6 +34,9 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <h1 className="text-3xl font-bold underline">
+        Hello world!
+       </h1>
     </>
   )
 }
