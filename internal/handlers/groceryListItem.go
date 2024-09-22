@@ -44,7 +44,7 @@ func (h *groceryListItemHandler) Create(c echo.Context) error {
 		return delivery.ResponseError(c, http.StatusBadRequest, err.Error())
 	}
 
-	return delivery.ResponseSuccess(c, http.StatusOK, nil)
+	return c.NoContent(http.StatusOK)
 }
 
 func (h *groceryListItemHandler) Detail(c echo.Context) error {

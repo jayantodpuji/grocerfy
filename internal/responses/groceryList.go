@@ -14,5 +14,5 @@ type GroceryListDetailResponse struct {
 	Name        string                  `json:"name"`
 	Description string                  `json:"description"`
 	CreatedAt   time.Time               `json:"createdAt"`
-	Items       []GroceryListItemDetail `json:"items,omitempty"`
+	Items       []GroceryListItemDetail `json:"items"`
 }
