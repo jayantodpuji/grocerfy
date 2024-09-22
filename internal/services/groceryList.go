@@ -79,16 +79,14 @@ func (g *groceryListService) GetGroceryListByID(c context.Context, listID uuid.U
 	items := make([]responses.GroceryListItemDetail, 0)
 	for i := 0; i < len(gli); i++ {
 		items = append(items, responses.GroceryListItemDetail{
-			ID:            gli[i].ID,
-			GroceryListID: gli[i].GroceryListID,
-			Category:      gli[i].Category,
-			Name:          gli[i].Name,
-			Unit:          gli[i].Unit,
-			Quantity:      gli[i].Quantity,
-			Price:         gli[i].Price,
-			IsPurchased:   gli[i].IsPurchased,
-			CreatedAt:     gli[i].CreatedAt,
-			UpdatedAt:     gli[i].UpdatedAt,
+			ID:          gli[i].ID,
+			Category:    gli[i].Category,
+			Name:        gli[i].Name,
+			Unit:        gli[i].Unit,
+			Quantity:    gli[i].Quantity,
+			Price:       gli[i].Price,
+			IsPurchased: gli[i].IsPurchased,
+			CreatedAt:   gli[i].CreatedAt,
 		})
 	}
 
