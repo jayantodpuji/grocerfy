@@ -57,6 +57,8 @@ func Routes(app *Application) {
 	groceryListV1.POST("/", groceryListHandler.Create)
 	groceryListV1.GET("/", groceryListHandler.Index)
 	groceryListV1.GET("/:id", groceryListHandler.Detail)
+	groceryListV1.PATCH("/:id", groceryListHandler.Update)
+	groceryListV1.DELETE("/:id", groceryListHandler.Delete)
 
 	groceryListItemV1 := secured.Group("/items")
 	groceryListItemV1.POST("/", groceryListItemHandler.Create)
