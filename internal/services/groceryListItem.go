@@ -14,6 +14,7 @@ type GroceryListItemService interface {
 	CreateGroceryListItem(context.Context, *requests.CreateGroceryListItemRequest) error
 	GetGroceryListItemDetail(context.Context, uuid.UUID) (*responses.GroceryListItemDetail, error)
 	UpdateItemDetail(context.Context, uuid.UUID, *requests.UpdateGroceryListItem) error
+	DeleteItem(context.Context, uuid.UUID) error
 }
 
 type groceryListItemService struct {
@@ -67,6 +68,14 @@ func (s *groceryListItemService) UpdateItemDetail(c context.Context, id uuid.UUI
 
 	err := s.repo.UpdateItemByID(c, id, p)
 	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s groceryListItemService) DeleteItem(c context.Context, id uuid.UUID) error {
+	if err := s.repo.DestroyItemByID(c, id); err != nil {
 		return err
 	}
 

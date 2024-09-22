@@ -11,9 +11,11 @@ import (
 )
 
 type GroceryListHandler interface {
-	Create(c echo.Context) error
-	Index(c echo.Context) error
-	Detail(c echo.Context) error
+	Create(echo.Context) error
+	Index(echo.Context) error
+	Detail(echo.Context) error
+	Update(echo.Context) error
+	Delete(echo.Context) error
 }
 
 type groceryListHandler struct {
@@ -78,4 +80,41 @@ func (g *groceryListHandler) Detail(c echo.Context) error {
 	}
 
 	return delivery.ResponseSuccess(c, http.StatusOK, groceryList)
+}
+
+func (g *groceryListHandler) Update(c echo.Context) error {
+	idAny := c.Param("id")
+
+	id, err := uuid.FromString(idAny)
+	if err != nil {
+		return delivery.ResponseError(c, http.StatusBadRequest, err.Error())
+	}
+
+	var req requests.UpdateGroceryListRequest
+	if err := c.Bind(&req); err != nil {
+		return delivery.ResponseError(c, http.StatusBadRequest, err.Error())
+	}
+
+	err = g.groceryListService.UpdateGroceryList(c.Request().Context(), id, &req)
+	if err != nil {
+		return delivery.ResponseError(c, http.StatusInternalServerError, err.Error())
+	}
+
+	return c.NoContent(http.StatusOK)
+}
+
+func (g *groceryListHandler) Delete(c echo.Context) error {
+	idAny := c.Param("id")
+
+	id, err := uuid.FromString(idAny)
+	if err != nil {
+		return delivery.ResponseError(c, http.StatusBadRequest, err.Error())
+	}
+
+	err = g.groceryListService.DestroyGroceryList(c.Request().Context(), id)
+	if err != nil {
+		return delivery.ResponseError(c, http.StatusInternalServerError, err.Error())
+	}
+
+	return c.NoContent(http.StatusOK)
 }

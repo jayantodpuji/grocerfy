@@ -14,6 +14,8 @@ type GroceryListService interface {
 	CreateGroceryList(context.Context, uuid.UUID, requests.CreateGroceryListRequest) error
 	GetGroceryListByUserID(context.Context, uuid.UUID) ([]*responses.GroceryListIndexResponse, error)
 	GetGroceryListByID(context.Context, uuid.UUID) (*responses.GroceryListDetailResponse, error)
+	UpdateGroceryList(context.Context, uuid.UUID, *requests.UpdateGroceryListRequest) error
+	DestroyGroceryList(context.Context, uuid.UUID) error
 }
 
 type groceryListService struct {
@@ -99,4 +101,25 @@ func (g *groceryListService) GetGroceryListByID(c context.Context, listID uuid.U
 	}
 
 	return &detail, nil
+}
+
+func (g *groceryListService) UpdateGroceryList(c context.Context, id uuid.UUID, req *requests.UpdateGroceryListRequest) error {
+	p := models.GroceryList{
+		Name:        req.Name,
+		Description: req.Description,
+	}
+
+	if err := g.groceryListRepository.UpdateGroceryListByID(c, id, &p); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (g *groceryListService) DestroyGroceryList(c context.Context, id uuid.UUID) error {
+	if err := g.groceryListRepository.DestroyGroceryListAndItemsByID(c, id); err != nil {
+		return err
+	}
+
+	return nil
 }

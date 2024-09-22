@@ -12,6 +12,8 @@ type GroceryListRepository interface {
 	InsertRecord(context.Context, *models.GroceryList) error
 	GetGroceryListByUserID(context.Context, uuid.UUID) ([]models.GroceryList, error)
 	GetGroceryListByID(context.Context, uuid.UUID) (*models.GroceryList, error)
+	UpdateGroceryListByID(context.Context, uuid.UUID, *models.GroceryList) error
+	DestroyGroceryListAndItemsByID(context.Context, uuid.UUID) error
 }
 
 type groceryListRepository struct {
@@ -50,4 +52,45 @@ func (g *groceryListRepository) GetGroceryListByID(c context.Context, listID uui
 	}
 
 	return &groceryList, nil
+}
+
+func (g *groceryListRepository) UpdateGroceryListByID(c context.Context, id uuid.UUID, p *models.GroceryList) error {
+	if err := g.db.WithContext(c).
+		Model(&models.GroceryList{}).
+		Where("id = ?", id).
+		Updates(p).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (g *groceryListRepository) DestroyGroceryListAndItemsByID(c context.Context, groceryListID uuid.UUID) error {
+	tx := g.db.Begin()
+	if tx.Error != nil {
+		return tx.Error
+	}
+
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	if err := tx.WithContext(c).
+		Unscoped().
+		Where("grocery_list_id = ?", groceryListID).
+		Delete(&models.GroceryListItem{}).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	if err := tx.WithContext(c).
+		Unscoped().
+		Delete(&models.GroceryList{}, groceryListID).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	return tx.Commit().Error
 }

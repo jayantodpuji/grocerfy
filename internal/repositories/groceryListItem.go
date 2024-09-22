@@ -13,6 +13,7 @@ type GroceryListItemRepository interface {
 	GetItemsByGroceryList(context.Context, uuid.UUID) ([]*models.GroceryListItem, error)
 	GetItemByID(context.Context, uuid.UUID) (*models.GroceryListItem, error)
 	UpdateItemByID(context.Context, uuid.UUID, models.GroceryListItem) error
+	DestroyItemByID(context.Context, uuid.UUID) error
 }
 
 type groceryListItemRepository struct {
@@ -58,6 +59,14 @@ func (g *groceryListItemRepository) UpdateItemByID(c context.Context, id uuid.UU
 		Model(&models.GroceryListItem{}).
 		Where("id = ?", id).
 		Updates(p).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (g *groceryListItemRepository) DestroyItemByID(c context.Context, id uuid.UUID) error {
+	if err := g.db.WithContext(c).Unscoped().Delete(&models.GroceryListItem{}, id).Error; err != nil {
 		return err
 	}
 
