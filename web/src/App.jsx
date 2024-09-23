@@ -1,10 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import Dashboard from './Dashboard';
+import { isAuthenticated } from './utilities/auth';
 
 function App() {
-  const [isLogin, setIsLogin] = useState(true);
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<AuthPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Router>
+  );
+}
 
+const AuthPage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate('/dashboard');
+    }
+  }, [navigate])
+
+  const [isLogin, setIsLogin] = useState(true);
   const toggleForm = () => {
     setIsLogin(!isLogin);
   };
@@ -28,6 +49,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;
