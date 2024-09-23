@@ -1,4 +1,3 @@
-// App.js
 import React, { useState } from 'react';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
@@ -18,7 +17,7 @@ function App() {
           <p className="mt-4 text-lg">A simple Grocery Todo List Application</p>
         </div>
       </div>
-      <div className="w-1/2 p-8 flex items-center justify-center">
+      <div className="w-1/2 p-8 flex items-center justify-left">
         <div>
           {isLogin ? (
             <LoginForm toggleForm={toggleForm} />
