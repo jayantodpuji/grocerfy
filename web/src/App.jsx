@@ -1,43 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div class="h-screen flex">
+      <div class="w-1/2 bg-gray-200 p-8 flex items-center justify-center">
+        <div>
+          <h1 class="text-4xl font-bold">Welcome to Grocerfy</h1>
+          <p class="mt-4 text-lg">A simple Grocery Todo List Application</p>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <button
-          class="inline-block cursor-pointer rounded-md bg-gray-800 px-4 py-3 text-center text-sm font-semibold uppercase text-white transition duration-200 ease-in-out hover:bg-gray-900"
-          onClick={() => setCount((count) => count + 1)}
-          >
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div class="w-1/2 p-8 flex items-center justify-center">
+        <div>
+          <h2 class="text-4xl font-bold mb-4">Login</h2>
+          <form>
+            <div class="mb-4">
+              <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+              <input type="email" id="email" class="mt-1 block w-full p-3 border border-gray-300 rounded-md" placeholder="you@example.com"/>
+            </div>
+            <div class="mb-4">
+              <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+              <input type="password" id="password" class="mt-1 block w-full p-3 border border-gray-300 rounded-md" placeholder="Enter your password"/>
+            </div>
+            <button type="submit" class="w-full py-3 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700">Sign Up</button>
+          </form>
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-       </h1>
-    </>
+    </div>
   )
 }
 
