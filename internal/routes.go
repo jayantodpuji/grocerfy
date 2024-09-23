@@ -1,10 +1,13 @@
 package internal
 
 import (
+	"net/http"
+
 	"github.com/jayantodpuji/grocerfy/internal/handlers"
 	"github.com/jayantodpuji/grocerfy/internal/middlewares"
 	"github.com/jayantodpuji/grocerfy/internal/repositories"
 	"github.com/jayantodpuji/grocerfy/internal/services"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func Routes(app *Application) {
@@ -43,6 +46,12 @@ func Routes(app *Application) {
 			},
 		)),
 	})
+
+	app.Router.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		Skipper:      middleware.DefaultSkipper,
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodPost, http.MethodDelete},
+	}))
 
 	v1 := app.Router.Group("/api/v1")
 
