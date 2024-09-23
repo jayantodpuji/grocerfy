@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Register } from './api/register';
 
 const RegisterForm = ({ toggleForm }) => {
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -16,9 +17,10 @@ const RegisterForm = ({ toggleForm }) => {
     }
 
     try {
-      const success = await Register(email, password);
+      const success = await Register(fullName, email, password);
 
       if (success) {
+        setFullName('');
         setEmail('');
         setPassword('');
         setConfirmPassword('');
@@ -34,6 +36,18 @@ const RegisterForm = ({ toggleForm }) => {
     <div>
       <h2 className="text-4xl font-bold mb-4">Sign Up</h2>
         <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+            <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Full Name</label>
+            <input
+              type="text"
+              id="fullName"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="mt-1 block w-full p-3 border border-gray-300 rounded-md"
+              placeholder="John Doe"
+              required
+            />
+          </div>
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
             <input

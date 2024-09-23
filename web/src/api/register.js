@@ -1,11 +1,11 @@
-export const Register = async (email, password) => {
+export const Register = async (name, email, password) => {
   try {
-    const response = await fetch('http://localhost:3000/api/v1/register', {
+    const response = await fetch('http://localhost:3000/api/v1/users/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ name, email, password }),
     });
 
     if (!response.ok) {
