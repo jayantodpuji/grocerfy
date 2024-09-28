@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
-import Dashboard from './Dashboard';
+import Dashboard from './components/dashboard';
 import { isAuthenticated } from './utilities/auth';
 
 function App() {
