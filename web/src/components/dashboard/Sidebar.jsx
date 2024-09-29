@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Sidebar = ({ items, onItemClick }) => {
+const Sidebar = ({ items, onItemClick, onItemRemove }) => {
   return (
     <div className="drawer-side">
       <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
@@ -12,8 +12,24 @@ const Sidebar = ({ items, onItemClick }) => {
           <h3 className="text-lg font-semibold">List</h3>
         </li>
         {items.map((item) => (
-          <li key={item.id}>
-            <a onClick={() => onItemClick(item)} className="py-2">{item.name}</a>
+          <li key={item.id} className="relative">
+            <div className="flex items-center w-full">
+              <a
+                onClick={() => onItemClick(item)}
+                className="py-2 flex-grow hover:bg-base-300 rounded-lg"
+              >
+                {item.name}
+              </a>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onItemRemove(item.id);
+                }}
+                className="btn btn-xs btn-error ml-2 absolute right-2"
+              >
+                ×
+              </button>
+            </div>
           </li>
         ))}
       </ul>

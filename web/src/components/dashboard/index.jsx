@@ -24,6 +24,13 @@ const Dashboard = () => {
     setSelectedItem(item);
   };
 
+  const handleItemRemove = (itemId) => {
+    setItems(items.filter(item => item.id !== itemId));
+    if (selectedItem && selectedItem.id === itemId) {
+      setSelectedItem(null);
+    }
+  };
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -31,7 +38,7 @@ const Dashboard = () => {
         <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden mb-4">Open menu</label>
         <Detail selectedItem={selectedItem} />
       </div>
-      <Sidebar items={items} onItemClick={handleItemClick} />
+      <Sidebar items={items} onItemClick={handleItemClick} onItemRemove={handleItemRemove} />
     </div>
   );
 };
