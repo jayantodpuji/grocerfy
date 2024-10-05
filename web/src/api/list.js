@@ -58,3 +58,17 @@ export const createNewList = async (name, description) => {
     throw new Error('Unexpected response from server');
   }
 };
+
+export const fetchListDetails = async (id) => {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`${API_BASE_URL}/lists/${id}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const responseData = await handleResponse(response);
+  return responseData?.data;
+};

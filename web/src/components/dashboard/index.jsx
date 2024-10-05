@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from '../../utilities/auth';
-import { fetchLists, createNewList } from '../../api/list';
+import { fetchLists, createNewList, fetchListDetails } from '../../api/list';
 import Sidebar from './Sidebar';
 import Detail from './Detail';
 import NewList from './NewList';
@@ -47,8 +47,20 @@ const Dashboard = () => {
     }
   };
 
-  const handleItemClick = (item) => {
-    setSelectedItem(item);
+  const handleItemClick = async (item) => {
+    try {
+      setIsLoading(true);
+      const response = await fetchListDetails(item.id);
+      if (response) {
+        setSelectedItem(response);
+      } else {
+        throw new Error(response.message || 'Failed to fetch list details');
+      }
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setIsLoading(false);
+    }
     setIsCreatingNewList(false);
   };
 
