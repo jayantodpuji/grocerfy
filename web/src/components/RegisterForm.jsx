@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Register } from './api/register';
+import { Register } from '../api/register';
 
 const RegisterForm = ({ toggleForm }) => {
   const [fullName, setFullName] = useState('');

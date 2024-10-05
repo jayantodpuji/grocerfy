@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Login } from './api/login';
+import { Login } from '../api/login';
 
 const LoginForm = ({ toggleForm }) => {
   const [email, setEmail] = useState('');

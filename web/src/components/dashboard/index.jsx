@@ -1,25 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from '../../utilities/auth';
+import { fetchLists, createNewList } from '../../api/list';
 import Sidebar from './Sidebar';
 import Detail from './Detail';
 import NewList from './NewList';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [items, setItems] = useState([
-    { id: 1, name: 'Item 1', description: 'This is the description for Item 1' },
-    // ... (other items)
-  ]);
-
+  const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [isCreatingNewList, setIsCreatingNewList] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!isAuthenticated()) {
-      navigate('/');
+      navigateToHome();
+    } else {
+      loadLists();
     }
-  }, [navigate]);
+  }, []);
+
+  const navigateToHome = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  };
+
+  const loadLists = async () => {
+    try {
+      const data = await fetchLists();
+      setItems(data);
+      setIsLoading(false);
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
+  const handleError = (err) => {
+    console.error('Error occurred:', err);
+    if (err.message === 'Unauthorized') {
+      navigateToHome();
+    } else {
+      setError(err.message);
+      setIsLoading(false);
+    }
+  };
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
@@ -38,17 +64,30 @@ const Dashboard = () => {
     setSelectedItem(null);
   };
 
-  const handleSaveNewList = (name, description) => {
-    const newId = items.length > 0 ? Math.max(...items.map(item => item.id)) + 1 : 1;
-    const newItem = { id: newId, name, description };
-    setItems([...items, newItem]);
-    setSelectedItem(newItem);
-    setIsCreatingNewList(false);
+  const handleSaveNewList = async (name, description) => {
+    try {
+      setIsLoading(true);
+      await createNewList(name, description);
+      await loadLists();
+      setIsCreatingNewList(false);
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleCancelNewList = () => {
     setIsCreatingNewList(false);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="drawer lg:drawer-open">
