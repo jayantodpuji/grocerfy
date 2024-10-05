@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import EmptyState from '../EmptyState';
 
 const Detail = ({ selectedItem }) => {
   const [checklist, setChecklist] = useState([
@@ -81,7 +82,7 @@ const Detail = ({ selectedItem }) => {
   if (!selectedItem) {
     return (
       <div className="pt-16 lg:pt-8 w-full max-w-2xl mx-auto">
-        <p className="text-center text-gray-500">Select an item from the menu to view details</p>
+        <EmptyState/>
       </div>
     );
   }

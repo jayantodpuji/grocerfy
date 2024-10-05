@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Sidebar = ({ items, onItemClick, onItemRemove, onLogout }) => {
+const Sidebar = ({ items, onItemClick, onItemRemove, onCreateNewList, onLogout }) => {
   return (
     <div className="drawer-side">
       <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
@@ -41,7 +41,15 @@ const Sidebar = ({ items, onItemClick, onItemRemove, onLogout }) => {
         </div>
         <div className="p-4 border-t border-base-300">
           <button
-            className="btn btn-block btn-outline btn-error"
+            className="btn btn-block btn-accent"
+            onClick={onCreateNewList}
+          >
+            Create New List
+          </button>
+        </div>
+        <div className="p-4 border-t border-base-300">
+          <button
+            className="btn btn-block btn-error"
             onClick={onLogout}
           >
             Logout
