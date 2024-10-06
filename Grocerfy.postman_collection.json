@@ -1,0 +1,416 @@
+{
+	"info": {
+		"_postman_id": "bf2d8a3b-8ca4-4c8e-99d3-edfef2440a83",
+		"name": "Grocerfy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15925323"
+	},
+	"item": [
+		{
+			"name": "Items",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZGE1ZmNkMS1kZjk5LTQxZDktYTQwZC1iMmQ0NzEwNWQ1YWYiLCJleHAiOjE3MjgyNTI1ODV9.defbC82XjngDm6aICBrhbqIHkU2ZTd6jKYy6RzJNPKw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"groceryListID\": \"640920c4-2fd9-413c-ac5d-0060c20cf1f2\",\n    \"category\": \"food\",\n    \"name\": \"apple\",\n    \"unit\": \"kg\",\n    \"quantity\": 1,\n    \"price\": 20000,\n    \"isPurchased\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/secured/items/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"secured",
+								"items",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZGE1ZmNkMS1kZjk5LTQxZDktYTQwZC1iMmQ0NzEwNWQ1YWYiLCJleHAiOjE3MjcwODczNTB9.97BEL9J-CfcKqoPUatcreiwnpIMhaPEmPZldgbq6ZsY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/secured/items/a337ddee-7881-443d-a839-5c665b794140",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"secured",
+								"items",
+								"a337ddee-7881-443d-a839-5c665b794140"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZGE1ZmNkMS1kZjk5LTQxZDktYTQwZC1iMmQ0NzEwNWQ1YWYiLCJleHAiOjE3MjcwODczNTB9.97BEL9J-CfcKqoPUatcreiwnpIMhaPEmPZldgbq6ZsY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\": 2,\n    \"price\": 20000,\n    \"isPurchased\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/secured/items/a337ddee-7881-443d-a839-5c665b794140",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"secured",
+								"items",
+								"a337ddee-7881-443d-a839-5c665b794140"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZGE1ZmNkMS1kZjk5LTQxZDktYTQwZC1iMmQ0NzEwNWQ1YWYiLCJleHAiOjE3MjcwODczNTB9.97BEL9J-CfcKqoPUatcreiwnpIMhaPEmPZldgbq6ZsY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/secured/items/a337ddee-7881-443d-a839-5c665b794140",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"secured",
+								"items",
+								"a337ddee-7881-443d-a839-5c665b794140"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "List",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZGE1ZmNkMS1kZjk5LTQxZDktYTQwZC1iMmQ0NzEwNWQ1YWYiLCJleHAiOjE3MjcwOTY3MDF9.FA8eFVtlQZk3QmiNgmypOp1v5hojXj5jd1Xd57AgYeE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Dummy Grocery List 2\",\n    \"description\": \"Dummy Grocery List 2 Description\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/secured/lists/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"secured",
+								"lists",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZGE1ZmNkMS1kZjk5LTQxZDktYTQwZC1iMmQ0NzEwNWQ1YWYiLCJleHAiOjE3MjcwOTY3MDF9.FA8eFVtlQZk3QmiNgmypOp1v5hojXj5jd1Xd57AgYeE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Dummy Grocery List Update\",\n    \"description\": \"Dummy Grocery List Update Description\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/secured/lists/a338b352-e627-48bd-8b1e-f90b8a7540f1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"secured",
+								"lists",
+								"a338b352-e627-48bd-8b1e-f90b8a7540f1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZGE1ZmNkMS1kZjk5LTQxZDktYTQwZC1iMmQ0NzEwNWQ1YWYiLCJleHAiOjE3MjcwOTY3MDF9.FA8eFVtlQZk3QmiNgmypOp1v5hojXj5jd1Xd57AgYeE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/secured/lists/a338b352-e627-48bd-8b1e-f90b8a7540f1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"secured",
+								"lists",
+								"a338b352-e627-48bd-8b1e-f90b8a7540f1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Index",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZGE1ZmNkMS1kZjk5LTQxZDktYTQwZC1iMmQ0NzEwNWQ1YWYiLCJleHAiOjE3MjgyNTI1ODV9.defbC82XjngDm6aICBrhbqIHkU2ZTd6jKYy6RzJNPKw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/secured/lists/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"secured",
+								"lists",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZGE1ZmNkMS1kZjk5LTQxZDktYTQwZC1iMmQ0NzEwNWQ1YWYiLCJleHAiOjE3MjgyNTI1ODV9.defbC82XjngDm6aICBrhbqIHkU2ZTd6jKYy6RzJNPKw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/v1/secured/lists/640920c4-2fd9-413c-ac5d-0060c20cf1f2",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"secured",
+								"lists",
+								"640920c4-2fd9-413c-ac5d-0060c20cf1f2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"dummy\",\n    \"email\": \"dummy@gmail.com\",\n    \"password\": \"dummy\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/users/register",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"dummy@gmail.com\",\n    \"password\": \"dummy\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/users/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

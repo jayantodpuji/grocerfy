@@ -14,5 +14,3 @@ CREATE TABLE public.grocery_list_items (
 );
 
 CREATE INDEX idx_grocery_list_items_grocery_list_id ON public.grocery_list_items (grocery_list_id);
-CREATE INDEX idx_grocery_list_items_category ON public.grocery_list_items (category);
-
