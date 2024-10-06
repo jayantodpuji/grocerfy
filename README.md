@@ -30,12 +30,12 @@ Run `go clean -testcache && go test ./... -p 1`
 
 
 ## Todo
-- [] Dockerize
-- [] Add field `price` to todo item
-- [] Enable update to list and it's item
-- [] Add more test cases in golang code
-- [] Enable test in react web app
-
+- [ ] Dockerize
+- [ ] Add field `price` to todo item
+- [ ] Enable update to list and it's item
+- [ ] Add more test cases in golang code
+- [ ] Enable test in react web app
+- [ ] Setup ci/cd
 
 ## Motivation
 To practice create golang and react project from scratch
