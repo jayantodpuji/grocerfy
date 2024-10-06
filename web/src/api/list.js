@@ -91,3 +91,17 @@ export const createNewItem = async (listId, name, quantity, unit) => {
     throw new Error('Failed to add item');
   }
 };
+
+export const deleteList = async (listId) => {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`${API_BASE_URL}/lists/${listId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to delete list. Status: ${response.status}`);
+  }
+};

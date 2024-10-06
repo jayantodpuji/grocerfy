@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from '../../utilities/auth';
-import { fetchLists, createNewList, fetchListDetails } from '../../api/list';
+import { fetchLists, createNewList, fetchListDetails, deleteList } from '../../api/list';
 import Sidebar from './Sidebar';
 import Detail from './Detail';
 import NewList from './NewList';
@@ -64,10 +64,15 @@ const Dashboard = () => {
     setIsCreatingNewList(false);
   };
 
-  const handleItemRemove = (itemId) => {
-    setItems(items.filter(item => item.id !== itemId));
-    if (selectedItem && selectedItem.id === itemId) {
-      setSelectedItem(null);
+  const handleItemRemove = async (itemId) => {
+    try {
+      await deleteList(itemId);
+      setItems(items.filter(item => item.id !== itemId));
+      if (selectedItem && selectedItem.id === itemId) {
+        setSelectedItem(null);
+      }
+    } catch (err) {
+      handleError(err);
     }
   };
 
@@ -92,6 +97,10 @@ const Dashboard = () => {
   const handleCancelNewList = () => {
     setIsCreatingNewList(false);
   };
+
+  const handleLogout = () => {
+    navigateToHome();
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -136,6 +145,7 @@ const Dashboard = () => {
         onItemClick={handleItemClick}
         onItemRemove={handleItemRemove}
         onCreateNewList={handleCreateNewList}
+        onLogout={handleLogout}
       />
     </div>
   );
