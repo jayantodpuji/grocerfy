@@ -36,6 +36,9 @@ Run `go clean -testcache && go test ./... -p 1`
 - [ ] Add more test cases in golang code
 - [ ] Enable test in react web app
 - [ ] Setup ci/cd
+- [ ] Enable `down` migration
+- [ ] Refactor and optimize react code
+
 
 ## Motivation
 To practice create golang and react project from scratch
