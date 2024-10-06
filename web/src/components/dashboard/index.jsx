@@ -101,6 +101,22 @@ const Dashboard = () => {
     return <div>Error: {error}</div>;
   }
 
+  const handleFetchListDetails = async (listId) => {
+    try {
+      setIsLoading(true);
+      const response = await fetchListDetails(listId);
+      if (response) {
+        setSelectedItem(response);
+      } else {
+        throw new Error(response.message || 'Failed to fetch list details');
+      }
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -109,7 +125,10 @@ const Dashboard = () => {
         {isCreatingNewList ? (
           <NewList onSave={handleSaveNewList} onCancel={handleCancelNewList} />
         ) : (
-          <Detail selectedItem={selectedItem} />
+          <Detail
+            selectedItem={selectedItem}
+            onRefresh={() => selectedItem && handleFetchListDetails(selectedItem.id)}
+          />
         )}
       </div>
       <Sidebar

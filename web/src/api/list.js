@@ -72,3 +72,22 @@ export const fetchListDetails = async (id) => {
   const responseData = await handleResponse(response);
   return responseData?.data;
 };
+
+export const createNewItem = async (listId, name, quantity, unit) => {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`${API_BASE_URL}/items/`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ listId, name, quantity, unit }),
+  });
+
+  const responseData = await handleResponse(response);
+  if (response.ok) {
+    return responseData?.data;
+  } else {
+    throw new Error('Failed to add item');
+  }
+};
