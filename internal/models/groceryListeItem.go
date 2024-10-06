@@ -12,11 +12,9 @@ import (
 type GroceryListItem struct {
 	ID            uuid.UUID `gorm:"primaryKey;type:uuid;default:uuid_generate_v4()"`
 	GroceryListID uuid.UUID `gorm:"type:uuid;not null"`
-	Category      string    `gorm:"type:varchar(255);not null"`
 	Name          string    `gorm:"type:varchar(255);not null"`
 	Unit          string    `gorm:"type:varchar(255);not null"`
 	Quantity      int       `gorm:"type:int;not null"`
-	Price         float64   `gorm:"type:decimal(16,2);not null"`
 	IsPurchased   bool      `gorm:"type:boolean;not null"`
 	CreatedAt     time.Time `gorm:"type:timestamptz;not null"`
 	UpdatedAt     time.Time `gorm:"type:timestamptz;not null"`

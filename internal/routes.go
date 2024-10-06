@@ -71,8 +71,7 @@ func Routes(app *Application) {
 
 	groceryListItemV1 := secured.Group("/items")
 	groceryListItemV1.POST("/", groceryListItemHandler.Create)
-	groceryListItemV1.GET("/:id", groceryListItemHandler.Detail)
 	groceryListItemV1.PATCH("/:id", groceryListItemHandler.Update)
-	groceryListItemV1.PATCH("/:id/toggle", groceryListItemHandler.Toggle)
 	groceryListItemV1.DELETE("/:id", groceryListItemHandler.Delete)
+	groceryListItemV1.PATCH("/:id/toggle", groceryListItemHandler.Toggle)
 }

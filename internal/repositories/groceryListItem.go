@@ -11,7 +11,6 @@ import (
 type GroceryListItemRepository interface {
 	InsertRecord(context.Context, *models.GroceryListItem) error
 	GetItemsByGroceryList(context.Context, uuid.UUID) ([]*models.GroceryListItem, error)
-	GetItemByID(context.Context, uuid.UUID) (*models.GroceryListItem, error)
 	UpdateItemByID(context.Context, uuid.UUID, models.GroceryListItem) error
 	DestroyItemByID(context.Context, uuid.UUID) error
 	ToggleIsPurchased(context.Context, uuid.UUID) error
@@ -44,15 +43,6 @@ func (g *groceryListItemRepository) GetItemsByGroceryList(c context.Context, lis
 	}
 
 	return items, nil
-}
-
-func (g *groceryListItemRepository) GetItemByID(c context.Context, id uuid.UUID) (*models.GroceryListItem, error) {
-	var item models.GroceryListItem
-	if err := g.db.WithContext(c).First(&item).Error; err != nil {
-		return nil, err
-	}
-
-	return &item, nil
 }
 
 func (g *groceryListItemRepository) UpdateItemByID(c context.Context, id uuid.UUID, p models.GroceryListItem) error {
