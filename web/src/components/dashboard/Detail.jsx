@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import EmptyState from '../EmptyState';
-import { createNewItem } from '../../api/list';
+import { createNewItem, toggleIsPurchased } from '../../api/list';
 
 const Detail = ({ selectedItem, onRefresh }) => {
   const [showForm, setShowForm] = useState(false);
   const [newItem, setNewItem] = useState({ name: '', quantity: '', unit: '' });
+  const [items, setItems] = useState(selectedItem?.items || []);
 
   if (!selectedItem) {
     return (
@@ -37,20 +38,31 @@ const Detail = ({ selectedItem, onRefresh }) => {
     }
   };
 
+  const handleToggleIsPurchased = async (itemId) => {
+    try {
+      await toggleIsPurchased(itemId);
+      setItems(items.map(item =>
+        item.id === itemId ? { ...item, isPurchased: !item.isPurchased } : item
+      ));
+    } catch (error) {
+      console.error('Error toggling item status:', error);
+    }
+  };
+
   return (
     <div className="pt-16 lg:pt-8 w-full max-w-2xl mx-auto">
       <h2 className="text-2xl font-bold mb-2">{selectedItem.name}</h2>
       <p className="text-gray-600 mb-4">{selectedItem.description}</p>
 
       <ul className="space-y-2 mb-4">
-        {selectedItem.items.map((item) => (
+        {items.map((item) => (
           <li key={item.id} className="flex items-center space-x-2">
             <label className="label cursor-pointer">
               <input
                 type="checkbox"
                 checked={item.isPurchased}
                 className="checkbox checkbox-primary"
-                onChange={() => {}}
+                onChange={() => handleToggleIsPurchased(item.id)}
               />
               <span className="label-text ml-2">
                 {item.name} - {item.quantity} {item.unit}

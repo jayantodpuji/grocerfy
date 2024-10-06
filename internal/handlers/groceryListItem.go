@@ -15,6 +15,7 @@ type GroceryListItemHandler interface {
 	Detail(echo.Context) error
 	Update(echo.Context) error
 	Delete(echo.Context) error
+	Toggle(echo.Context) error
 }
 
 type groceryListItemHandler struct {
@@ -77,6 +78,22 @@ func (h *groceryListItemHandler) Update(c echo.Context) error {
 	}
 
 	err = h.service.UpdateItemDetail(c.Request().Context(), id, &req)
+	if err != nil {
+		return delivery.ResponseError(c, http.StatusInternalServerError, err.Error())
+	}
+
+	return c.NoContent(http.StatusOK)
+}
+
+func (h *groceryListItemHandler) Toggle(c echo.Context) error {
+	idAny := c.Param("id")
+
+	id, err := uuid.FromString(idAny)
+	if err != nil {
+		return delivery.ResponseError(c, http.StatusBadRequest, err.Error())
+	}
+
+	err = h.service.ToggleIsPurchased(c.Request().Context(), id)
 	if err != nil {
 		return delivery.ResponseError(c, http.StatusInternalServerError, err.Error())
 	}

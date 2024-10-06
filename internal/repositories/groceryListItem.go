@@ -14,6 +14,7 @@ type GroceryListItemRepository interface {
 	GetItemByID(context.Context, uuid.UUID) (*models.GroceryListItem, error)
 	UpdateItemByID(context.Context, uuid.UUID, models.GroceryListItem) error
 	DestroyItemByID(context.Context, uuid.UUID) error
+	ToggleIsPurchased(context.Context, uuid.UUID) error
 }
 
 type groceryListItemRepository struct {
@@ -71,4 +72,8 @@ func (g *groceryListItemRepository) DestroyItemByID(c context.Context, id uuid.U
 	}
 
 	return nil
+}
+
+func (g *groceryListItemRepository) ToggleIsPurchased(c context.Context, id uuid.UUID) error {
+	return g.db.Model(&models.GroceryListItem{}).Where("id = ?", id).Update("is_purchased", gorm.Expr("NOT is_purchased")).Error
 }

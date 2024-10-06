@@ -105,3 +105,17 @@ export const deleteList = async (listId) => {
     throw new Error(`Failed to delete list. Status: ${response.status}`);
   }
 };
+
+export const toggleIsPurchased = async (itemId) => {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`${API_BASE_URL}/items/${itemId}/toggle`, {
+    method: 'PATCH',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to toggle item status. Status: ${response.status}`);
+  }
+};

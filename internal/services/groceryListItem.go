@@ -15,6 +15,7 @@ type GroceryListItemService interface {
 	GetGroceryListItemDetail(context.Context, uuid.UUID) (*responses.GroceryListItemDetail, error)
 	UpdateItemDetail(context.Context, uuid.UUID, *requests.UpdateGroceryListItem) error
 	DeleteItem(context.Context, uuid.UUID) error
+	ToggleIsPurchased(context.Context, uuid.UUID) error
 }
 
 type groceryListItemService struct {
@@ -80,4 +81,8 @@ func (s groceryListItemService) DeleteItem(c context.Context, id uuid.UUID) erro
 	}
 
 	return nil
+}
+
+func (s groceryListItemService) ToggleIsPurchased(c context.Context, id uuid.UUID) error {
+	return s.repo.ToggleIsPurchased(c, id)
 }
